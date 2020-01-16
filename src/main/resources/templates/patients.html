@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <title>Users</title>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>-->
+</head>
+<body>
+<a href="?lang=en">en</a>
+<a href="?lang=ru">ru</a>
+<div id = "patients">
+    <h2 th:text="#{title.patients}"></h2>
+</div>
+<div id = "content">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th th:text="#{label.user.id}"></th>
+            <th th:text="#{label.first.name}"></th>
+            <th th:text="#{label.last.name}"></th>
+            <th th:text="#{label.patient.symptoms}"></th>
+            <th th:text="#{label.patient.state}"></th>
+            <th th:text="#{label.user.id}"></th>
+            <th th:text="#{label.medical.procedure}"></th>
+            <th th:text="#{label.medication}"></th>
+            <th th:text="#{label.surgery}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="treatment: ${treatments}" >
+            <td><span th:text="${treatment.patient.patientId}"> Id </span></td>
+            <td><span th:text="${treatment.patient.firstName}">First name </span></td>
+            <td><span th:text="${treatment.patient.lastName}"> Last name </span></td>
+            <td><span th:text="${treatment.patient.symptoms}"> Symptoms </span></td>
+            <td><span th:text="${treatment.patient.state}"> State </span></td>
+            <td><span th:text="${treatment.treatmentId}"> Treatment Id </span></td>
+            <td><span th:text="${treatment.medicalProcedure}"> Procedure </span></td>
+            <td><span th:text="${treatment.medication}"> Medication </span></td>
+            <td><span th:text="${treatment.surgery}"> Surgery </span></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default" style="margin-top:45px">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <h3  th:text="#{title.add.patient}"></h3>
+                        <form th:action = "@{/patients}" method="post">
+                            <p th:if="${message}" class="alert alert-info" role="alert" th:text="'An error occured'"></p>
+                            <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+                            <div class="form-group">
+                                <label for="patient" th:text="#{label.full.name}"></label>
+                                <select id="patient" name="patient" class="form-control">
+                                    <option th:each="patient: ${patients}"
+                                            th:value="${patient.patientId}"
+                                            th:utext="${patient.firstName} + ${patient.lastName}"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="medicalProcedure" th:text="#{label.medical.procedure}"></label>
+                                <input type="text" class="form-control" id="medicalProcedure" name="medicalProcedure">
+                            </div>
+                            <div class="form-group">
+                                <label for="medication" th:text="#{label.medication}"></label>
+                                <input type="text" class="form-control" id="medication" name="medication">
+                            </div>
+                            <div class="form-group">
+                                <label for="surgery" th:text="#{label.surgery}"></label>
+                                <input type="text" class="form-control" id="surgery" name="surgery">
+                            </div>
+                            <button type="submit" class="btn btn-default" th:text="#{button.add.patient}"></button>
+                        </form>
+                    </div>
+                </div>
+                <a href="/"  th:text="#{button.go.back}" ></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
